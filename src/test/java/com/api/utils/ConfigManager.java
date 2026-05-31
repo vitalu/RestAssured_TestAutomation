@@ -10,7 +10,7 @@ import java.util.Properties;
 public class ConfigManager {
 //WAP to read the properties file from src/test/resources/config/config.properties
 	private static Properties properies = new Properties();
-	private static String propertiesFilePath;
+	private static String propertiesFilePath="config/config.properties";
 	private static String env;
 
 	private ConfigManager() {
@@ -18,7 +18,7 @@ public class ConfigManager {
 	}
 
 	static {
-		env = System.getProperty("env");
+		env = System.getProperty("env","qa");
 		env = env.toLowerCase().trim();
 		System.out.println("*** Running tests in "+env+ " environment ***");
 		switch (env) {
