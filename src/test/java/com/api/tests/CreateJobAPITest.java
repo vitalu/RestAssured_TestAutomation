@@ -12,6 +12,7 @@ import com.api.request.model.CustomerProduct;
 import com.api.request.model.Problems;
 import com.api.utils.AuthTokenProvider;
 import com.api.utils.ConfigManager;
+import static com.api.utils.DateAndTime.*;
 import com.api.utils.SpecUtil;
 
 import io.restassured.http.ContentType;
@@ -30,7 +31,7 @@ public class CreateJobAPITest {
 	public void createJobAPITest() throws IOException {
 		Customer customer = new Customer("Gulshan", "Kumar", "8999895655", "8987895666", "gulu@gmail.com", "");
 		CustomerAddress customerAddress = new CustomerAddress("453", "Aduri heights", "KSR Road", "", "Bharat nagar", "566755", "TS", "");
-		CustomerProduct customerProduct = new CustomerProduct("2026-04-06T18:30:00.000Z", "14830914641398", "14830914641398", "19081114641351", "2026-04-06T18:30:00.000Z", 1, 1);
+		CustomerProduct customerProduct = new CustomerProduct(getTimeWithDaysAgo(7), "16830914641398", "11830914641398", "19081114641351", getTimeWithDaysAgo(7), 1, 1);
 		Problems problems = new Problems(1, "Heating issue");
 		List<Problems> problemList = new ArrayList<Problems>();
 		problemList.add(problems);
