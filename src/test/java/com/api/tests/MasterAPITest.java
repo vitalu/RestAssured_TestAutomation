@@ -7,9 +7,9 @@ import java.io.IOException;
 import org.hamcrest.Matchers;
 import org.testng.annotations.Test;
 
-import com.api.utils.SpecUtil;
+import static com.api.utils.SpecUtil.*;
 
-import io.restassured.module.jsv.JsonSchemaValidator;
+import static io.restassured.module.jsv.JsonSchemaValidator.*;
 
 import static com.api.constants.Role.*;
 import static com.api.utils.AuthTokenProvider.*;
@@ -20,29 +20,29 @@ import static io.restassured.RestAssured.*;
 
 public class MasterAPITest {
 	
-	@Test
+	@Test(description = "Verify if the master api is giving correct response", groups = {"api","smoke","regression"})
 	public void masterAPITest() throws IOException {
 		given()
-		.spec(SpecUtil.requestSpecWithAuthToken(FD))
+		.spec(requestSpecWithAuthToken(FD))
 		.when()
 		.post("master")
 		.then()
-		.spec(SpecUtil.responseSpec_OK())
+		.spec(responseSpec_OK())
 		.body("message", equalTo("Success"))
 		.body("data", notNullValue())
 		.body("data", hasKey("mst_oem"))
 		.body("data", hasKey("mst_model"))
-		.body(JsonSchemaValidator.matchesJsonSchemaInClasspath("response-schema/masterAPIResponseSchema.json"));
+		.body(matchesJsonSchemaInClasspath("response-schema/masterAPIResponseSchema.json"));
 		
 	}
-	@Test
+	@Test(description = "Verify if the master api is giving correct status code for invalid token", groups = {"api","smoke","regression","negative"})
 	public void invalidTokenMasterAPITest() throws IOException {
 		given()
-		.spec(SpecUtil.requestSpec())
+		.spec(requestSpec())
 		.when()
 		.post("master")
 		.then()
-		.spec(SpecUtil.responseSpec_TEXT(401));
+		.spec(responseSpec_TEXT(401));
 
 	}
 

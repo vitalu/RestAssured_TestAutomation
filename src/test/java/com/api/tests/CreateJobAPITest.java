@@ -1,6 +1,7 @@
 package com.api.tests;
 
 import org.hamcrest.Matchers;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static com.api.constants.Role.*;
@@ -35,19 +36,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CreateJobAPITest {
+	private CreateJobPayload createJobPayload;
 	
-
-	@Test
-	public void createJobAPITest() throws IOException {
+	@BeforeMethod(description = "Create job api request payload")
+	public void setUp() {
 		Customer customer = new Customer("Gulshan", "Kumar", "8999895655", "8987895666", "gulu@gmail.com", "");
 		CustomerAddress customerAddress = new CustomerAddress("453", "Aduri heights", "KSR Road", "", "Bharat nagar", "566755", "TS", "");
-		CustomerProduct customerProduct = new CustomerProduct(getTimeWithDaysAgo(7), "16830914641311", "11830914641312", "19081114641351", getTimeWithDaysAgo(7), NEXUS_2.getCode(), NEXUS_BLUE_2.getCode());
+		CustomerProduct customerProduct = new CustomerProduct(getTimeWithDaysAgo(7), "16830344641311", "11830934641312", "19081114641351", getTimeWithDaysAgo(7), NEXUS_2.getCode(), NEXUS_BLUE_2.getCode());
 		Problems problems = new Problems(OVERHEATING.getCode(), "Heating issue");
 		List<Problems> problemList = new ArrayList<Problems>();
 		problemList.add(problems);
-		CreateJobPayload createJobPayload = new CreateJobPayload(SERVICE_LOCATION_A.getCode(),
+		createJobPayload = new CreateJobPayload(SERVICE_LOCATION_A.getCode(),
 				FRONT_DESK.getCode(), IN_WARRANTY.getCode(), GOOGLE.getCode(), customer,
 				customerAddress, customerProduct, problemList);
+	}
+
+	@Test(description = "Verify if the create api is able to create Inwarranty job", groups = {"api","smoke","regression"})
+	public void createJobAPITest() throws IOException {
 		
 		given().spec(SpecUtil.requestSpecWithAuthToken(FD, createJobPayload))
 				.when()
